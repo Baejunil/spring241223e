@@ -178,3 +178,9 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY org.springframework.tooling.boot.ls 1 0 2024-12-23 10:14:05.885
 !MESSAGE Boot project ADDED: spring-demo005
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-12-23 10:20:37.699
+!MESSAGE Classpath changed for project: FirstContoller
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-12-23 10:20:44.818
+!MESSAGE Classpath changed for project: FirstContoller
