@@ -1,6 +1,5 @@
 package com.example;
 
-import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,8 +17,8 @@ public class FirstController {
 	}
 	
 	@GetMapping(value="test")
-	public UserDtoLombok test() {
-		UserDtoLombok userDto=new UserDtoLombok();
+	public UserDto test() {
+		UserDto userDto=new UserDto();
 		userDto.setName("Spring");
 		userDto.setAge(20);
 		return userDto;
