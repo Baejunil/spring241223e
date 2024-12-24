@@ -15,5 +15,5 @@ public class UserDtoLombok {
 	
 	private String name;
 	private Integer age;
-	
+
 }
