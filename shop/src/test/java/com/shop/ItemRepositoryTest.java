@@ -19,6 +19,7 @@ public class ItemRepositoryTest {
 	ItemRepository itemRepository;
 	
 	//상품 저장 테스트
+	@Test
 	public void createItemTest() {
 		Item item=new Item();
 		item.setItemNm("테스트 상품");
@@ -123,5 +124,18 @@ public class ItemRepositoryTest {
 			System.out.println(item);
 		}
 	}
+	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+

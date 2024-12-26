@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>상품 상세 출력 예제</title>
 </head>
 <body>
-<!-- 
-	Thymeleaf
-	
-	th:text
-	태그 컨텐츠 영역에 출력합니다
-
- -->
- <h1>상품 데이터 출력 예제</h1>
- <div>
- 	상품명 : <span th:text="${itemDto.itemNm}"></span>
- </div>
+<h1>상품 상세 출력 예제</h1>
+<div>
+  상품명 : <span th:text="${itemDto.itemNm}"></span>
+</div>
+<div>
+  가격 : <span th:text="${itemDto.price}"></span>
+</div>
+<div>
+  상세 설명 : <span th:text="${itemDto.itemDetail}"></span>
+</div>
+<div>
+  등록일자 : <span th:text="${#dates.format(itemDto.regTime, 'yyyy-MM-dd HH:mm')}"></span>
+</div>
 </body>
 </html>
