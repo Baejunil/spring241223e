@@ -1,0 +1,122 @@
+/* 기본 스타일 설정 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  /* 컨테이너 스타일 */
+  .container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1, h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* 버튼 스타일 */
+  .view-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .toggle-btn {
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .toggle-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* 경기 일정 테이블 */
+  .match-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .match-table th, .match-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+  
+  .match-table th {
+    background-color: #f8f8f8;
+  }
+  
+  .match-table td {
+    background-color: #fff;
+  }
+  
+  .match-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* 게시판 스타일 */
+  .post-board {
+    margin-top: 40px;
+  }
+  
+  .post-input {
+    width: 100%;
+    padding: 10px;
+    height: 80px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    font-size: 16px;
+    resize: none;
+  }
+  
+  .post-btn {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .post-btn:hover {
+    background-color: #218838;
+  }
+  
+  /* 게시글 출력 */
+  .posts {
+    margin-top: 20px;
+  }
+  
+  .post {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+  }
+  
+  .post small {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #777;
+  }
+  

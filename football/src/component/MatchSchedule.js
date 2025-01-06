@@ -1,61 +1,124 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import moment from "moment"; // moment.js 임포트
+import "./MatchSchedule.css";
 
 const MatchSchedule = () => {
-  const [matches, setMatches] = useState([]);
-  const [error, setError] = useState(null); // 오류 상태 추가
+  const [matches, setMatches] = useState([]); // 경기 데이터
+  const [posts, setPosts] = useState([]); // 게시글 데이터
+  const [currentView, setCurrentView] = useState("matches"); // 현재 화면 상태
+  const [error, setError] = useState(null); // 오류 상태
 
+  // 경기 일정 데이터 가져오기
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/matches")
       .then((response) => {
-        console.log(response.data); // 서버에서 응답받은 데이터 확인
         if (response.data && Array.isArray(response.data)) {
-          setMatches(response.data); // 받은 데이터로 상태 업데이트
+          setMatches(response.data);
         } else {
-          setError("올바른 경기 데이터를 받지 못했습니다.");
+          setError("경기 데이터를 가져오는 데 문제가 발생했습니다.");
         }
       })
       .catch((error) => {
-        console.error("Error fetching matches:", error);
         setError("경기 데이터를 가져오는 데 오류가 발생했습니다.");
       });
   }, []);
 
+  // 게시글 목록 가져오기
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/posts")
+      .then((response) => {
+        setPosts(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
+  }, []);
+
+  // 게시글 추가 API 호출
+  const addPost = (postContent) => {
+    axios
+      .post("http://localhost:8080/api/posts", { content: postContent })
+      .then((response) => {
+        setPosts([...posts, response.data]);
+      })
+      .catch((error) => {
+        console.error("Error adding post:", error);
+      });
+  };
+
   return (
-    <div>
-      <h1>축구 경기 일정 (외부 데이터)</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>} {/* 오류 메시지 표시 */}
+    <div className="container">
+      <h1>축구 일정 및 자유게시판</h1>
 
-      {matches.length === 0 ? (
-        <p>경기 일정이 없습니다.</p>
-      ) : (
-        <table border="1" style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr>
-              <th>홈팀</th>
-              <th>어웨이팀</th>
-              <th>경기 시간</th>
-            </tr>
-          </thead>
-          <tbody>
-            {matches.map((match, index) => {
-              // 날짜 처리: moment.js로 utcDate를 포맷팅
-              const formattedDate = match.matchDate
-                ? moment(match.matchDate).format("YYYY-MM-DD HH:mm:ss")
-                : "Invalid Date"; // 날짜가 유효한 경우 포맷팅, 그렇지 않으면 "Invalid Date"
+      {/* 버튼들 */}
+      <div className="view-buttons">
+        <button onClick={() => setCurrentView("matches")}>챔피언스리그 보기</button>
+        <button onClick={() => setCurrentView("board")}>게시판 보기</button>
+      </div>
 
-              return (
+      {/* 경기 일정 화면 */}
+      {currentView === "matches" && (
+        <div className="match-schedule">
+          <h2>챔피언스리그 경기 일정</h2>
+          {error && <p className="error">{error}</p>} {/* 오류 표시 */}
+          <table className="match-table">
+            <thead>
+              <tr>
+                <th>홈팀</th>
+                <th>어웨이팀</th>
+                <th>경기 시간</th>
+              </tr>
+            </thead>
+            <tbody>
+              {matches.map((match, index) => (
                 <tr key={index}>
                   <td>{match.homeTeam || "정보 없음"}</td>
                   <td>{match.awayTeam || "정보 없음"}</td>
-                  <td>{formattedDate}</td> {/* 포맷팅된 날짜 표시 */}
+                  <td>{match.matchDate || "정보 없음"}</td>
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* 자유게시판 화면 */}
+      {currentView === "board" && (
+        <div className="post-board">
+          <h2>자유게시판</h2>
+          <textarea
+            className="post-input"
+            placeholder="여기에 댓글을 남겨주세요."
+            id="postInput"
+          ></textarea>
+          <button
+            onClick={() => {
+              const postContent = document.getElementById("postInput").value;
+              if (postContent) {
+                addPost(postContent);
+                document.getElementById("postInput").value = ""; // 입력창 비우기
+              }
+            }}
+          >
+            게시글 추가
+          </button>
+
+          {/* 게시글 목록 */}
+          <div className="posts">
+            {posts.length === 0 ? (
+              <p>게시글이 없습니다.</p>
+            ) : (
+              posts.map((post, index) => (
+                <div key={index} className="post">
+                  <p>{post.content}</p>
+                  <small>{post.date}</small>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
       )}
     </div>
   );
