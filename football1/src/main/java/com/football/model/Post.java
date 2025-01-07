@@ -10,44 +10,45 @@ import java.time.LocalDateTime;
 @Entity
 public class Post {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    private String content;
-    
-    private LocalDateTime date = LocalDateTime.now();
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long id;
 
-    // 기본 생성자
-    public Post() {}
+private String content;
 
-    // 생성자
-    public Post(String content) {
-        this.content = content;
-    }
+private LocalDateTime date = LocalDateTime.now();
 
-    // getter, setter
-    public Long getId() {
-        return id;
-    }
+// 기본 생성자
+public Post() {}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+// 생성자
+public Post(String content) {
+    this.content = content;
+}
 
-    public String getContent() {
-        return content;
-    }
+// getter, setter
+public Long getId() {
+    return id;
+}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+public void setId(Long id) {
+    this.id = id;
+}
 
-    public LocalDateTime getDate() {
-        return date;
-    }
+public String getContent() {
+    return content;
+}
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
+public void setContent(String content) {
+    this.content = content;
+}
+
+public LocalDateTime getDate() {
+    return date;
+}
+
+public void setDate(LocalDateTime date) {
+    this.date = date;
+}
 }

@@ -21,17 +21,33 @@ public class FootballMatch {
     @Column(name = "match_date", nullable = false)
     private LocalDateTime matchDate;
 
+    @Column(name = "home_score")
+    private Integer homeScore;
+
+    @Column(name = "away_score")
+    private Integer awayScore;
+
+    @Column(name = "matchday")
+    private String matchday;
+
+    @Column(name = "status")
+    private String status;
+
     // 기본 생성자
     public FootballMatch() {}
 
     // 파라미터를 받는 생성자
-    public FootballMatch(String homeTeam, String awayTeam, LocalDateTime matchDate) {
+    public FootballMatch(String homeTeam, String awayTeam, LocalDateTime matchDate, String matchday, String status, Integer homeScore, Integer awayScore) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.matchDate = matchDate != null ? matchDate : LocalDateTime.now(); // matchDate가 null이면 현재 시간으로 설정
+        this.matchday = matchday;
+        this.status = status;
+        this.homeScore = homeScore;
+        this.awayScore = awayScore;
     }
 
-    // getter 및 setter 메서드
+    // Getter 및 Setter 메서드
     public Long getId() {
         return id;
     }
@@ -64,28 +80,59 @@ public class FootballMatch {
         this.matchDate = matchDate;
     }
 
-    // toString 메서드 개선
-    @Override
-    public String toString() {
-        return String.format("FootballMatch{id=%d, homeTeam='%s', awayTeam='%s', matchDate=%s}", 
-                              id, homeTeam, awayTeam, matchDate);
+    public Integer getHomeScore() {
+        return homeScore;
     }
 
-    // equals 및 hashCode 메서드 개선
+    public void setHomeScore(Integer homeScore) {
+        this.homeScore = homeScore;
+    }
+
+    public Integer getAwayScore() {
+        return awayScore;
+    }
+
+    public void setAwayScore(Integer awayScore) {
+        this.awayScore = awayScore;
+    }
+
+    public String getMatchday() {
+        return matchday;
+    }
+
+    public void setMatchday(String matchday) {
+        this.matchday = matchday;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("FootballMatch{id=%d, homeTeam='%s', awayTeam='%s', matchDate=%s, homeScore=%d, awayScore=%d, matchday='%s', status='%s'}", 
+                              id, homeTeam, awayTeam, matchDate, homeScore, awayScore, matchday, status);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FootballMatch that = (FootballMatch) o;
-        return Objects.equals(id, that.id);
+        return Objects.equals(homeTeam, that.homeTeam) &&
+               Objects.equals(awayTeam, that.awayTeam) &&
+               Objects.equals(matchDate, that.matchDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id); // 개선된 hashCode
+        return Objects.hash(homeTeam, awayTeam, matchDate);
     }
 
-    // JPA Entity Lifecycle 메서드 - 데이터베이스에 저장되기 전에 matchDate가 null이면 현재 시간을 설정
     @PrePersist
     public void onPrePersist() {
         if (this.matchDate == null) {
