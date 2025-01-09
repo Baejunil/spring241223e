@@ -38,4 +38,10 @@ public ResponseEntity<?> deletePost(@PathVariable Long id) {
         return ResponseEntity.notFound().build();
     }
 }
+//게시글 검색
+@GetMapping("/search")
+public List<Post> searchPosts(@RequestParam("query") String query) {
+ return postRepository.findByContentContaining(query);
+}
+
 }

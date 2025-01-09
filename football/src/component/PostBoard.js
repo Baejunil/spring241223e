@@ -5,7 +5,7 @@ import "./PostBoard.css";
 const PostBoard = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
-
+  const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태 추가
   // 게시글 목록 가져오기
   useEffect(() => {
     axios
@@ -18,9 +18,8 @@ const PostBoard = () => {
         console.error(error);
       });
   }, []);
-
   // 게시글 추가
-  const addPost = (postContent) => {
+  const handleAddPost = (postContent) => {
     if (!postContent) return;
 
     axios
@@ -32,7 +31,6 @@ const PostBoard = () => {
         console.error("게시글 추가 중 오류:", error);
       });
   };
-
   // 게시글 삭제
   const deletePost = (id) => {
     axios
@@ -44,7 +42,26 @@ const PostBoard = () => {
         console.error("Error deleting post:", error);
       });
   };
-
+  // 검색 처리
+  const handleSearch = async () => {
+    if (searchTerm === "") {
+      // 검색어가 비어있으면 모든 게시글을 표시
+      try {
+        const response = await axios.get("http://localhost:8080/api/posts");
+        setPosts(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      // 검색어에 맞는 게시글 필터링
+      try {
+        const response = await axios.get(`http://localhost:8080/api/posts/search?query=${searchTerm}`);
+        setPosts(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
   return (
     <div className="post-board">
       <h2>자유게시판</h2>
@@ -60,7 +77,7 @@ const PostBoard = () => {
         onClick={() => {
           const postContent = document.getElementById("postInput").value;
           if (postContent) {
-            addPost(postContent);
+            handleAddPost(postContent);
             document.getElementById("postInput").value = ""; // 입력창 초기화
           }
         }}
@@ -68,6 +85,17 @@ const PostBoard = () => {
       >
         게시글 추가
       </button>
+
+      {/* 검색 기능 */}
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="검색어 입력"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button onClick={handleSearch}>검색</button>
+      </div>
 
       {/* 게시글 목록 */}
       <div className="posts">
